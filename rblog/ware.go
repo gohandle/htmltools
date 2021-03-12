@@ -56,10 +56,7 @@ func NewLogging(logs *zap.Logger, hdrs IDHeaders) func(http.Handler) http.Handle
 				rid = base64.URLEncoding.EncodeToString(b[:])
 			}
 
-			l := logs.With(
-				zap.String("request_id", rid),
-			)
-
+			l := logs.With(zap.String("request_id", rid))
 			next.ServeHTTP(w, r.WithContext(
 				WithLogger(r.Context(), l)))
 		})
