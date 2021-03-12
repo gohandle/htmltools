@@ -1,4 +1,4 @@
-module github.com/gohandle/htmltools
+module github.com/gohandle/htmltools/rbview
 
 go 1.16
 

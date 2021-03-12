@@ -17,5 +17,5 @@ func NewNow() template.FuncMap {
 // NowHelper annotates as helper
 var NowHelper = fx.Annotated{
 	Target: NewNow,
-	Group:  "rbhelper",
+	Group:  "rb.view.helper",
 }

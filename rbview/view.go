@@ -13,9 +13,9 @@ import (
 
 // Conf configures the view
 type Conf struct {
-	Dir      string   `env:"VIEW_DIR"`
-	Patterns []string `env:"VIEW_PATTERNS" envSeparator:":" envDefault:"*.html"`
-	Name     string   `env:"VIEW_NAME" envDefault:"root"`
+	Dir      string   `env:"RB_VIEW_DIR"`
+	Patterns []string `env:"RB_VIEW_PATTERNS" envSeparator:":" envDefault:"*.html"`
+	Name     string   `env:"RB_VIEW_NAME" envDefault:"root"`
 }
 
 // ParseConf parses the env
@@ -39,7 +39,7 @@ func FromDir(logs *zap.Logger, cfg Conf) TemplateFiles {
 type Params struct {
 	fx.In
 	Files TemplateFiles
-	Funcs []template.FuncMap `group:"rbhelper"`
+	Funcs []template.FuncMap `group:"rb.view.helper"`
 }
 
 // New creates the view templates

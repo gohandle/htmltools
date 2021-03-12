@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gohandle/htmltools/rbhelper"
+	"github.com/gohandle/htmltools/rbview/rbhelper"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxtest"
 	"go.uber.org/zap"
@@ -19,10 +19,10 @@ import (
 var testFs embed.FS
 
 func TestParseConf(t *testing.T) {
-	os.Setenv("VIEW_DIR", "foo")
-	defer os.Unsetenv("VIEW_DIR")
-	os.Setenv("VIEW_PATTERNS", "index.html:foo.html")
-	defer os.Unsetenv("VIEW_PATTERNS")
+	os.Setenv("RB_VIEW_DIR", "foo")
+	defer os.Unsetenv("RB_VIEW_DIR")
+	os.Setenv("RB_VIEW_PATTERNS", "index.html:foo.html")
+	defer os.Unsetenv("RB_VIEW_PATTERNS")
 
 	cfg, err := ParseConf()
 	if !reflect.DeepEqual(cfg, Conf{
