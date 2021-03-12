@@ -1,6 +1,8 @@
 package rblog
 
 import (
+	"log"
+
 	"github.com/caarlos0/env/v6"
 	"go.uber.org/zap"
 )
@@ -22,4 +24,12 @@ func New(cfg Conf) (*zap.Logger, error) {
 	}
 
 	return zap.NewProduction()
+}
+
+// NewStd outputs a standard lib logger. Unfortunately we cannot use regular di here since
+// it isn't bootstrapped yet.
+func NewStd() *log.Logger {
+	var cfg Conf
+	l, _ := New(cfg)
+	return zap.NewStdLog(l)
 }

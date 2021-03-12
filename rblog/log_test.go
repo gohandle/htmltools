@@ -23,6 +23,13 @@ func TestConf(t *testing.T) {
 	}
 }
 
+func TestNewStd(t *testing.T) {
+	l := NewStd()
+	if l == nil {
+		t.Fatalf("got: %v", l)
+	}
+}
+
 func TestNew(t *testing.T) {
 	t.Run("prod", func(t *testing.T) {
 		l1, err := New(Conf{})
