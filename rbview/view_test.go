@@ -2,12 +2,13 @@ package rbview
 
 import (
 	"bytes"
+	"html/template"
 	"os"
 	"path/filepath"
 	"reflect"
 	"testing"
-	"text/template"
 
+	"github.com/gohandle/htmltools/rbhelper"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxtest"
 	"go.uber.org/zap"
@@ -23,6 +24,7 @@ func TestParseConf(t *testing.T) {
 	if !reflect.DeepEqual(cfg, Conf{
 		Dir:      "foo",
 		Patterns: []string{"index.html", "foo.html"},
+		Name:     "root",
 	}) {
 		t.Fatalf("got: %+v err: %v", cfg, err)
 	}
@@ -30,12 +32,12 @@ func TestParseConf(t *testing.T) {
 
 func TestDirView(t *testing.T) {
 	dir, _ := os.MkdirTemp("", "")
-	os.WriteFile(filepath.Join(dir, "index.html"), []byte(`{{.}}`), 0777)
+	os.WriteFile(filepath.Join(dir, "index.html"), []byte(`{{.}}{{ now.IsZero }}`), 0777)
 
 	var v *template.Template
 	fxtest.New(t,
 		fx.Supply(Conf{Dir: dir, Patterns: []string{"*.html"}}),
-		fx.Provide(zap.NewDevelopment, FromDir, New),
+		fx.Provide(zap.NewDevelopment, FromDir, New, rbhelper.NowHelper),
 		fx.Populate(&v)).RequireStart().RequireStop()
 
 	buf := bytes.NewBuffer(nil)
@@ -43,7 +45,7 @@ func TestDirView(t *testing.T) {
 		t.Fatalf("got: %v", err)
 	}
 
-	if act := buf.String(); act != `foo` {
+	if act := buf.String(); act != `foofalse` {
 		t.Fatalf("got: %v", act)
 	}
 }
