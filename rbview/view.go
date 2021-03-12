@@ -39,7 +39,7 @@ func FromDir(logs *zap.Logger, cfg Conf) TemplateFiles {
 type Params struct {
 	fx.In
 	Files TemplateFiles
-	Funcs []template.FuncMap `group:"rb.view.helper"`
+	Funcs []template.FuncMap `group:"rb.helper"`
 }
 
 // New creates the view templates
