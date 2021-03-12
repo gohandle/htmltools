@@ -75,11 +75,11 @@ func Logger(ctx context.Context) (l *zap.Logger) {
 }
 
 // L is a convenience method for retrieving a logger from the request's context. If non
-// is configured it will return a nop logger.
+// is configured it will return the global zap logger
 func L(r *http.Request) (l *zap.Logger) {
 	if l = Logger(r.Context()); l != nil {
 		return l
 	}
 
-	return zap.NewNop()
+	return zap.L()
 }
