@@ -4,3 +4,4 @@
 - [x] SHOULD make stdlib logging for fx
 - [ ] COULD log every request with duration
 - [ ] COULD make common zap options logging options configurable through env
+- [ ] COULD configure global logger by default
