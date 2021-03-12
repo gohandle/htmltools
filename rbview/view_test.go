@@ -3,7 +3,6 @@ package rbview
 import (
 	"bytes"
 	"embed"
-	_ "embed"
 	"html/template"
 	"os"
 	"path/filepath"
