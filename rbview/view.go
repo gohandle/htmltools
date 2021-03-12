@@ -1,6 +1,7 @@
 package rbview
 
 import (
+	"embed"
 	"html/template"
 	"io/fs"
 	"os"
@@ -24,6 +25,9 @@ func ParseConf() (cfg Conf, err error) {
 
 // TemplateFiles are on a filesystem
 type TemplateFiles fs.FS
+
+// FromEmbed creates a template files fs from an embedded filesystem
+func FromEmbed(efs embed.FS) TemplateFiles { return efs }
 
 // FromDir provides template files from an actual directory
 func FromDir(logs *zap.Logger, cfg Conf) TemplateFiles {

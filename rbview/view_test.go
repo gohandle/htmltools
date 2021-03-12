@@ -2,6 +2,8 @@ package rbview
 
 import (
 	"bytes"
+	"embed"
+	_ "embed"
 	"html/template"
 	"os"
 	"path/filepath"
@@ -13,6 +15,9 @@ import (
 	"go.uber.org/fx/fxtest"
 	"go.uber.org/zap"
 )
+
+//go:embed test.html
+var testFs embed.FS
 
 func TestParseConf(t *testing.T) {
 	os.Setenv("VIEW_DIR", "foo")
@@ -42,6 +47,23 @@ func TestDirView(t *testing.T) {
 
 	buf := bytes.NewBuffer(nil)
 	if err := v.ExecuteTemplate(buf, "index.html", "foo"); err != nil {
+		t.Fatalf("got: %v", err)
+	}
+
+	if act := buf.String(); act != `foofalse` {
+		t.Fatalf("got: %v", act)
+	}
+}
+
+func TestEmbedView(t *testing.T) {
+	var v *template.Template
+	fxtest.New(t,
+		fx.Supply(Conf{Patterns: []string{"*.html"}}, testFs),
+		fx.Provide(zap.NewDevelopment, FromEmbed, New, rbhelper.NowHelper),
+		fx.Populate(&v)).RequireStart().RequireStop()
+
+	buf := bytes.NewBuffer(nil)
+	if err := v.ExecuteTemplate(buf, "test.html", "foo"); err != nil {
 		t.Fatalf("got: %v", err)
 	}
 
