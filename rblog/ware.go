@@ -2,6 +2,8 @@ package rblog
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"net/http"
 
 	"go.uber.org/fx"
@@ -17,17 +19,45 @@ var Logging = fx.Annotated{
 	Name:   "rb.ware.logging",
 }
 
-// NewLogging will log requests and configure a request scoped logger for
-// the request
-func NewLogging(logs *zap.Logger) func(http.Handler) http.Handler {
+// IDHeaders hold the names of common request id header
+type IDHeaders []string
+
+// CommonIDHeaders return common id header names
+func CommonIDHeaders() IDHeaders {
+	return []string{
+		"X-Request-ID", "X-Correlation-ID", // unofficial standards: https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+		"X-Amzn-Trace-Id",       // AWS xray tracing: https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader
+		"Cf-Request-Id",         // Cloudflare: https://community.cloudflare.com/t/new-http-response-header-cf-request-id/165869
+		"X-Cloud-Trace-Context", // Google Cloud https://cloud.google.com/appengine/docs/standard/go/reference/request-response-headers
+	}
+}
+
+// RandRead is used for request id generation. It can be ovewritten in test to make them fully
+// deterministic. The default is set to a non-cryptographic random number
+var RandRead = rand.Read
+
+// NewLogging will provide a request-scoped logger with a request id field.
+func NewLogging(logs *zap.Logger, hdrs IDHeaders) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			var rid string
+			for _, hdrn := range hdrs {
+				rid = r.Header.Get(hdrn)
+				if rid != "" {
+					break
+				}
+			}
+			if rid == "" {
+				var b [18]byte
+				if _, err := RandRead(b[:]); err != nil {
+					logs.Error("failed to read random bytes for request id middleware",
+						zap.Error(err))
+				}
+				rid = base64.URLEncoding.EncodeToString(b[:])
+			}
+
 			l := logs.With(
-				zap.String("request_url", r.URL.String()),
-				zap.String("request_method", r.Method),
-				zap.Int64("request_length", r.ContentLength),
-				zap.String("request_host", r.Host),
-				zap.String("request_uri", r.RequestURI),
+				zap.String("request_id", rid),
 			)
 
 			next.ServeHTTP(w, r.WithContext(

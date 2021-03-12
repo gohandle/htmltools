@@ -53,7 +53,11 @@ func TestFxIntegration(t *testing.T) {
 		Logging func(http.Handler) http.Handler `name:"rb.ware.logging"`
 	}
 
-	fxtest.New(t, fx.Provide(zap.NewDevelopment, Logging), fx.Populate(&in)).RequireStart().RequireStop()
+	fxtest.New(t, fx.Provide(
+		zap.NewDevelopment,
+		Logging,
+		CommonIDHeaders,
+	), fx.Populate(&in)).RequireStart().RequireStop()
 	if in.Logging == nil {
 		t.Fatalf("got: %v", in)
 	}
