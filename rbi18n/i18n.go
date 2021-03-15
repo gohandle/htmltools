@@ -7,7 +7,9 @@ import (
 	"io/fs"
 	"os"
 
+	"github.com/caarlos0/env/v6"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )
@@ -17,6 +19,11 @@ type Conf struct {
 	DefaultLanguage string   `env:"RB_I18N_DEFAULT_LANGUAGE" envDefault:"en-US"`
 	Dir             string   `env:"RB_I18N_DIR"`
 	FileNames       []string `env:"RB_I18N_FILE_NAMES" envSeparator:":"`
+}
+
+// ParseConf parses the env
+func ParseConf() (cfg Conf, err error) {
+	return cfg, env.Parse(&cfg)
 }
 
 // MessageFiles are translations files on a filesystem
@@ -33,6 +40,7 @@ func FromDir(logs *zap.Logger, cfg Conf) MessageFiles {
 
 // Params are parameters for the bundle constructor
 type Params struct {
+	fx.In
 	Files MessageFiles
 }
 
