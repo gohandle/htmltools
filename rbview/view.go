@@ -13,7 +13,7 @@ import (
 
 // Conf configures the view
 type Conf struct {
-	Dir      string   `env:"RB_VIEW_DIR"`
+	Dir      string   `env:"RB_VIEW_DIR" envDefault:"."`
 	Patterns []string `env:"RB_VIEW_PATTERNS" envSeparator:":" envDefault:"*.html"`
 	Name     string   `env:"RB_VIEW_NAME" envDefault:"root"`
 }
