@@ -28,7 +28,20 @@ func ParseConf() (cfg Conf, err error) {
 
 // NewCookieStore inits a cookie store
 func NewCookieStore(logs *zap.Logger, cfg Conf) (sessions.Store, error) {
-	var pairs [][]byte
+	pairs, err := configureKeyPairs(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	s := sessions.NewCookieStore(pairs...)
+	configureOptions(s.Options, cfg)
+
+	logs.Info("setup cookie store",
+		zap.Int("num_keys", len(pairs)), zap.Any("options", s.Options))
+	return s, nil
+}
+
+func configureKeyPairs(cfg Conf) (pairs [][]byte, err error) {
 	for _, el := range cfg.KeyPairs {
 		kb, err := base64.StdEncoding.DecodeString(el)
 		if err != nil {
@@ -36,13 +49,7 @@ func NewCookieStore(logs *zap.Logger, cfg Conf) (sessions.Store, error) {
 		}
 		pairs = append(pairs, kb)
 	}
-
-	s := sessions.NewCookieStore(pairs...)
-	configureOptions(s.Options, cfg)
-
-	logs.Info("setup session store",
-		zap.Int("num_keys", len(pairs)), zap.Any("options", s.Options))
-	return s, nil
+	return
 }
 
 func configureOptions(opts *sessions.Options, cfg Conf) {
