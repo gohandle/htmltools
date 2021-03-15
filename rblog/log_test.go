@@ -1,7 +1,6 @@
 package rblog
 
 import (
-	"net/http"
 	"os"
 	"testing"
 
@@ -55,17 +54,14 @@ func TestNew(t *testing.T) {
 }
 
 func TestFxIntegration(t *testing.T) {
-	var in struct {
-		fx.In
-		Logging func(http.Handler) http.Handler `name:"rb.ware.logging"`
-	}
+	var mw LoggingWare
 
 	fxtest.New(t, fx.Provide(
 		zap.NewDevelopment,
-		Logging,
+		NewLogging,
 		CommonIDHeaders,
-	), fx.Populate(&in)).RequireStart().RequireStop()
-	if in.Logging == nil {
-		t.Fatalf("got: %v", in)
+	), fx.Populate(&mw)).RequireStart().RequireStop()
+	if mw == nil {
+		t.Fatalf("got: %v", mw)
 	}
 }

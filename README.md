@@ -11,6 +11,6 @@ Tooling for frontend development using html/template
 - [ ] SHOULD extend the view package to support wider rendering, maybe middleware that looks at accept language and injects a request scoped render looking at accept headers.
 - [ ] COULD add a package rbsql for sql connections for di
 - [ ] SHOULD have a package holds the routing/url generation helper. 
-- [ ] COULD add a package that helps with bundling and compiling using esbuild. Build on embed
 - [ ] COULD develop a formatter that formats html with go templating
 - [ ] COULD develop a html validator that uses the checks if the html is valid
+- [ ] COULD add a package that helps with bundling and compiling using esbuild. Build on embed

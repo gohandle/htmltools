@@ -6,18 +6,11 @@ import (
 	"encoding/base64"
 	"net/http"
 
-	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
 
 // make context keys private
 type ctxKey string
-
-// Logging annotates the logging middleware as rb middlware
-var Logging = fx.Annotated{
-	Target: NewLogging,
-	Name:   "rb.ware.logging",
-}
 
 // IDHeaders hold the names of common request id header
 type IDHeaders []string
@@ -36,8 +29,11 @@ func CommonIDHeaders() IDHeaders {
 // deterministic. The default is set to a non-cryptographic random number
 var RandRead = rand.Read
 
+// LoggingWare is the request logger middleware
+type LoggingWare func(http.Handler) http.Handler
+
 // NewLogging will provide a request-scoped logger with a request id field.
-func NewLogging(logs *zap.Logger, hdrs IDHeaders) func(http.Handler) http.Handler {
+func NewLogging(logs *zap.Logger, hdrs IDHeaders) LoggingWare {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			var rid string
