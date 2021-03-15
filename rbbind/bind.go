@@ -11,6 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// Conf configures the binder
 type Conf struct {
 	DecoderOrder []string `env:"RB_BIND_DECODER_ORDER" envSeparator:","`
 }
@@ -20,22 +21,26 @@ func ParseConf() (cfg Conf, err error) {
 	return cfg, env.Parse(&cfg)
 }
 
+// Decoder can be implemented to decode http requests
 type Decoder interface {
 	Name() string
 	Decode(r *http.Request, v interface{}, mt string, mtParams map[string]string) error
 }
 
+// Binder provides the ability to bind requests to a struct
 type Binder struct {
 	decs  map[string]Decoder
 	order []string
 	logs  *zap.Logger
 }
 
+// Params configures dependencies binding dependencies
 type Params struct {
 	fx.In
 	Decoders []Decoder `group:"rb.decoder"`
 }
 
+// New inits the binder
 func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
 	b = &Binder{
 		decs:  make(map[string]Decoder, len(p.Decoders)),
@@ -59,6 +64,7 @@ func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
 	return b, nil
 }
 
+// Bind will bind the request to all the provided values
 func (b *Binder) Bind(r *http.Request, vs ...interface{}) (err error) {
 	mt, mtParams, _ := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	for _, v := range vs {
