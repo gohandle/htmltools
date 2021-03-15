@@ -43,7 +43,6 @@ func NewStatic(logs *zap.Logger, cfg Conf, sfs StaticFiles) StaticWare {
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
 			p := strings.TrimPrefix(r.URL.Path, cfg.StaticPathPrefix)
 			rp := strings.TrimPrefix(r.URL.RawPath, cfg.StaticPathPrefix)
 			if len(p) < len(r.URL.Path) && (r.URL.RawPath == "" || len(rp) < len(r.URL.RawPath)) {
