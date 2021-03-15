@@ -28,6 +28,7 @@ type Decoder interface {
 type Binder struct {
 	decs  map[string]Decoder
 	order []string
+	logs  *zap.Logger
 }
 
 type Params struct {
@@ -41,6 +42,10 @@ func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
 		order: make([]string, 0, len(p.Decoders)),
 	}
 	for _, dec := range p.Decoders {
+		if _, ok := b.decs[dec.Name()]; ok {
+			return nil, fmt.Errorf("decoder with name '%s' already exists", dec.Name())
+		}
+
 		b.decs[dec.Name()] = dec
 		b.order = append(b.order, dec.Name())
 	}
@@ -50,6 +55,7 @@ func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
 		b.order = cfg.DecoderOrder
 	}
 
+	logs.Info("setup binder", zap.Strings("decoder_order", b.order))
 	return b, nil
 }
 

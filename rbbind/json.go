@@ -16,7 +16,7 @@ func NewJSON() Decoder {
 func (d *JSON) Name() string { return "json" }
 func (d *JSON) Decode(r *http.Request, v interface{}, mt string, _ map[string]string) (err error) {
 	if mt != "application/json" {
-		return nil // skip
+		return nil
 	}
 
 	dec := json.NewDecoder(r.Body)
