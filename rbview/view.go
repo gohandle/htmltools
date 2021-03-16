@@ -26,6 +26,11 @@ type Encoder interface {
 	Encode(w http.ResponseWriter, r *http.Request, v interface{}, o Options) error
 }
 
+// V is the view interface
+type V interface {
+	Render(w http.ResponseWriter, r *http.Request, d interface{}, opts ...Option) error
+}
+
 // Params configures dependencies binding dependencies
 type Params struct {
 	fx.In
@@ -37,8 +42,8 @@ type View struct {
 	order []string
 }
 
-func New(logs *zap.Logger, cfg Conf, p Params) (v *View, err error) {
-	v = &View{
+func New(logs *zap.Logger, cfg Conf, p Params) (V, error) {
+	v := &View{
 		encs:  make(map[string]Encoder, len(p.Encoders)),
 		order: make([]string, 0, len(p.Encoders)),
 	}

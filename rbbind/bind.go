@@ -27,6 +27,11 @@ type Decoder interface {
 	Decode(r *http.Request, v interface{}, mt string, mtParams map[string]string) error
 }
 
+// B is the bind interface
+type B interface {
+	Bind(r *http.Request, vs ...interface{}) error
+}
+
 // Params configures dependencies binding dependencies
 type Params struct {
 	fx.In
@@ -37,15 +42,15 @@ type Params struct {
 type Binder struct {
 	decs  map[string]Decoder
 	order []string
-	logs  *zap.Logger
 }
 
 // New inits the binder
-func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
-	b = &Binder{
+func New(logs *zap.Logger, cfg Conf, p Params) (B, error) {
+	b := &Binder{
 		decs:  make(map[string]Decoder, len(p.Decoders)),
 		order: make([]string, 0, len(p.Decoders)),
 	}
+
 	for _, dec := range p.Decoders {
 		if _, ok := b.decs[dec.Name()]; ok {
 			return nil, fmt.Errorf("decoder with name '%s' already exists", dec.Name())

@@ -16,7 +16,7 @@ var _ Encoder = &JSON{}
 var _ Encoder = &Tmpl{}
 
 func TestNoEncoders(t *testing.T) {
-	var v *View
+	var v V
 	fxtest.New(t,
 		fx.Populate(&v),
 		fx.Provide(New, zap.NewDevelopment, ParseConf),
@@ -32,7 +32,7 @@ func TestNoEncoders(t *testing.T) {
 var testFS embed.FS
 
 func TestTemplateJSON(t *testing.T) {
-	var v *View
+	var v V
 	fxtest.New(t,
 		fx.Populate(&v),
 		fx.Provide(rbtemplate.New, rbtemplate.FromEmbed, rbtemplate.ParseConf), fx.Supply(testFS),

@@ -14,7 +14,7 @@ import (
 var _ Decoder = &Form{}
 
 func TestBinder(t *testing.T) {
-	var b *Binder
+	var b B
 	fxtest.New(t,
 		fx.Populate(&b),
 		fx.Provide(ParseConf, FormDecoder, JSONDecoder, New, zap.NewDevelopment),
@@ -63,7 +63,7 @@ func TestBinderWithOrder(t *testing.T) {
 	os.Setenv("RB_BIND_DECODER_ORDER", "json,form")
 	defer os.Unsetenv("RB_BIND_DECODER_ORDER")
 
-	var b *Binder
+	var b B
 	fxtest.New(t,
 		fx.Populate(&b),
 		fx.Provide(ParseConf, FormDecoder, JSONDecoder, New, zap.NewDevelopment),
