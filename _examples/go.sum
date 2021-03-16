@@ -17,6 +17,8 @@ github.com/gohandle/htmltools/rbbind v0.0.0-20210316111350-af0d5a1b264d h1:4HXCb
 github.com/gohandle/htmltools/rbbind v0.0.0-20210316111350-af0d5a1b264d/go.mod h1:D8WChv32r5L3QxkKStbKOsfFxKdznh+pMf8CeeB2hls=
 github.com/gohandle/htmltools/rbi18n v0.0.0-20210316100042-a86f712f2dcd h1:JYZCqYIPNHM7JNj1sTw8gdHgAkvzlmnrLBZbbhMg59o=
 github.com/gohandle/htmltools/rbi18n v0.0.0-20210316100042-a86f712f2dcd/go.mod h1:AOqGlSZptB10aaCdCD1HzCgdbRlNuVNzgnACzH005OE=
+github.com/gohandle/htmltools/rbmux v0.0.0-20210316144817-5debff4442a5 h1:gJ5ztgR9GaTwN9KNVmiFEw2WbboWyQPMXbikH4Kl5MY=
+github.com/gohandle/htmltools/rbmux v0.0.0-20210316144817-5debff4442a5/go.mod h1:dVoa0gHeVYHOygvlwAta+GMZz6BaZ92yCy8Ss4yXy/k=
 github.com/gohandle/htmltools/rbview v0.0.0-20210316100042-a86f712f2dcd h1:wPbgpBe2SIWsJfKKhS1qzBCCJg5GqzJP73esUMR0lP0=
 github.com/gohandle/htmltools/rbview v0.0.0-20210316100042-a86f712f2dcd/go.mod h1:cpNXcBABkMhiMtBdXbSYLP9zbWCIivTCBZT3M340aVY=
 github.com/gohandle/htmltools/rbview v0.0.0-20210316105810-2cd6e3f4050d h1:GnOvucZtiKY5b75hE+R3skkPZAoH4tdq7/ig2vAOJbQ=
@@ -24,6 +26,8 @@ github.com/gohandle/htmltools/rbview v0.0.0-20210316105810-2cd6e3f4050d/go.mod h
 github.com/gohandle/htmltools/rbview v0.0.0-20210316111350-af0d5a1b264d h1:WEUm1NY2A4+sgkGTFN2hClSrlCfAhO0hZY9/JD6Fodw=
 github.com/gohandle/htmltools/rbview v0.0.0-20210316111350-af0d5a1b264d/go.mod h1:cpNXcBABkMhiMtBdXbSYLP9zbWCIivTCBZT3M340aVY=
 github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm40UhjYkI=
+github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
