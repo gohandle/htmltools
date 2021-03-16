@@ -1,4 +1,4 @@
-package rbview
+package rbtemplate
 
 import (
 	"embed"
@@ -23,14 +23,14 @@ func ParseConf() (cfg Conf, err error) {
 	return cfg, env.Parse(&cfg)
 }
 
-// TemplateFiles are on a filesystem
-type TemplateFiles fs.FS
+// Files are on a filesystem
+type Files fs.FS
 
 // FromEmbed creates a template files fs from an embedded filesystem
-func FromEmbed(efs embed.FS) TemplateFiles { return efs }
+func FromEmbed(efs embed.FS) Files { return efs }
 
 // FromDir provides template files from an actual directory
-func FromDir(logs *zap.Logger, cfg Conf) TemplateFiles {
+func FromDir(logs *zap.Logger, cfg Conf) Files {
 	logs.Info("configure dir fs", zap.String("dir", cfg.Dir))
 	return os.DirFS(cfg.Dir)
 }
@@ -38,7 +38,7 @@ func FromDir(logs *zap.Logger, cfg Conf) TemplateFiles {
 // Params are parameters for view construction
 type Params struct {
 	fx.In
-	Files TemplateFiles
+	Files Files
 	Funcs []template.FuncMap `group:"rb.helper"`
 }
 

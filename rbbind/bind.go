@@ -27,17 +27,17 @@ type Decoder interface {
 	Decode(r *http.Request, v interface{}, mt string, mtParams map[string]string) error
 }
 
-// Binder provides the ability to bind requests to a struct
-type Binder struct {
-	decs  map[string]Decoder
-	order []string
-	logs  *zap.Logger
-}
-
 // Params configures dependencies binding dependencies
 type Params struct {
 	fx.In
 	Decoders []Decoder `group:"rb.decoder"`
+}
+
+// Binder provides the ability to bind requests to values
+type Binder struct {
+	decs  map[string]Decoder
+	order []string
+	logs  *zap.Logger
 }
 
 // New inits the binder
@@ -60,7 +60,11 @@ func New(logs *zap.Logger, cfg Conf, p Params) (b *Binder, err error) {
 		b.order = cfg.DecoderOrder
 	}
 
-	logs.Info("setup binder", zap.Strings("decoder_order", b.order))
+	if len(b.order) != len(b.decs) {
+		return nil, fmt.Errorf("decoder order specified %d encoders, expected %d", len(b.order), len(b.decs))
+	}
+
+	logs.Info("setup binder", zap.Strings("decoders", b.order))
 	return b, nil
 }
 

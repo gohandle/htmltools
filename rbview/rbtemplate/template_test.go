@@ -1,4 +1,4 @@
-package rbview
+package rbtemplate
 
 import (
 	"bytes"
