@@ -10,6 +10,7 @@ Tooling for frontend development using html/template
 - [x] SHOULD add a package for form binding, possibly with middleware that does it based on content-type. Use fx group functionality to allow configuration of arbitrary binding logic
 - [x] SHOULD extend the view package to support wider rendering, maybe middleware that looks at accept language and injects a request scoped render looking at accept headers. Configuration through fx's group feature to configure supported response renderings.
 - [ ] SHOULD have a package holds the routing/url generation helper. 
+- [ ] COULD add a package that manages form rendering/creation
 - [ ] COULD add struct based validation package
 - [ ] COULD add a package rbsql for sql connections for di
 - [ ] COULD develop a formatter that formats html with go templating

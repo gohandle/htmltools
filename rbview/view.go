@@ -70,8 +70,6 @@ func (v *View) Render(w http.ResponseWriter, r *http.Request, d interface{}, opt
 		return fmt.Errorf("no encoders configured")
 	}
 
-	fmt.Println(v.order)
-
 	best, _ := accept.Negotiate(r.Header.Values("Accept"), v.order)
 	if best < 0 {
 		best = 0
