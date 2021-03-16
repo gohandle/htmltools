@@ -18,3 +18,4 @@ Tooling for frontend development using html/template
 - [ ] COULD add a package that helps with bundling and compiling using esbuild. Build on embed
 - [ ] COULD create a type that represents a framework context and can be embedded in page types
 - [ ] SHOULD have a mode where any error that is logged should be clearly visible on the response
+- [ ] COULD allow all helpers to have there name prefixed with a configurable prefix

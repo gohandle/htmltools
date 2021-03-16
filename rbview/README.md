@@ -8,3 +8,4 @@
 - [ ] SHOULD do render logging on request scope if possible
 - [ ] SHOULD test error paths, after having a nice error type to work with
 - [ ] COULD add middleware that returns a request/response scoped render from the context
+- [ ] COULD add a convenient method to render a redirect
