@@ -17,3 +17,4 @@ Tooling for frontend development using html/template
 - [ ] COULD develop a html validator that uses the checks if the html is valid
 - [ ] COULD add a package that helps with bundling and compiling using esbuild. Build on embed
 - [ ] COULD create a type that represents a framework context and can be embedded in page types
+- [ ] SHOULD have a mode where any error that is logged should be clearly visible on the response

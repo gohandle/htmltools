@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func EchoHandler(b *rbbind.Binder, v *rbview.View) http.HandlerFunc {
+func EchoHandler(b rbbind.B, v rbview.V) http.HandlerFunc {
 	type Output struct{ Message string }
 	type Input struct {
 		Name   string
